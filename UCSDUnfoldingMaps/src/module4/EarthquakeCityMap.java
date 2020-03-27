@@ -80,7 +80,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -137,24 +137,36 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
 		fill(255, 250, 240);
-		rect(25, 50, 150, 250);
+		rect(25, 50, 150, 300);
 		
 		fill(0);
 		textAlign(LEFT, CENTER);
 		textSize(12);
 		text("Earthquake Key", 50, 75);
 		
-		fill(color(255, 0, 0));
-		ellipse(50, 125, 15, 15);
+		fill(color(128, 0, 0));
+		triangle(50, 130, 55, 120,60,130);
+		fill(color(255, 255,255));
+		rect(50, 148, 13, 13);
+		fill(color(255, 255, 255));
+		ellipse(55, 175, 13, 13);
+		
 		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
+		ellipse(55, 225, 13, 13);
 		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
+		ellipse(55, 250, 13, 13);
+		fill(color(255, 0, 0));
+		ellipse(55, 275, 13, 13);
 		
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("City Marker", 75, 125);
+		text("Land Quake", 75, 150);
+		text("Ocean Quake", 75, 175);
+		text("Size~ Magnitude", 50, 200);
+		
+		text("Shallow", 75, 225);
+		text("Intermediate", 75, 250);
+		text("Deep", 75, 275);
 	}
 
 	
@@ -172,6 +184,10 @@ public class EarthquakeCityMap extends PApplet {
 		// and a Marker as input.  
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
+			if(isInCountry(earthquake,m))
+			{
+				return true;
+			}
 			// TODO: Finish this method using the helper method isInCountry
 			
 		}
@@ -201,6 +217,29 @@ public class EarthquakeCityMap extends PApplet {
 		//     	and (2) if it is on land, that its country property matches 
 		//      the name property of the country marker.   If so, increment
 		//      the country's counter.
+		int count1=0;
+		for (Marker m : countryMarkers) {
+			
+			int count = 0;
+			
+			for(Marker q : quakeMarkers)
+			{
+				EarthquakeMarker em = (EarthquakeMarker)q;
+				if(!em.isOnLand())
+					{
+					count1++;
+					}
+				if (m.getProperty("name")==q.getProperty("country"))
+					{
+					count++;
+					}
+			}
+			if(count>0)
+			System.out.println(m.getProperty("name") + " : " + count + " earthquake"); 
+		}
+		
+		count1=count1/countryMarkers.size();
+		System.out.println("Count of Ocean Quakes : " + count1 ); 
 		
 		// Here is some code you will find useful:
 		// 

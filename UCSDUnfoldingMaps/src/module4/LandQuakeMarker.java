@@ -24,6 +24,24 @@ public class LandQuakeMarker extends EarthquakeMarker {
 
 	@Override
 	public void drawEarthquake(PGraphics pg, float x, float y) {
+		
+		float mag=this.getMagnitude();
+		String date = (String)this.getProperty("age");
+		if(mag>=5)
+		{
+			pg.ellipse(x, y, 14, 14);
+			
+		}
+		else if ((mag>=3)&&(mag<5))
+		{
+			pg.ellipse(x, y, 11, 11);
+			
+		}
+		else if (mag<3)
+		{
+			pg.ellipse(x, y, 8, 8);
+			
+		}
 		// Draw a centered circle for land quakes
 		// DO NOT set the fill color here.  That will be set in the EarthquakeMarker
 		// class to indicate the depth of the earthquake.

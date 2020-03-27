@@ -51,7 +51,7 @@ public class EarthquakeCityMap extends PApplet {
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 
-	 List<Marker> markers = new ArrayList<Marker>();
+	
 	public void setup() {
 		size(950, 600, OPENGL);
 
@@ -63,26 +63,13 @@ public class EarthquakeCityMap extends PApplet {
 			map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 			//earthquakesURL = "2.5_week.atom";
-			
-			Location valLoc= new Location(-38.14f,-73.03f);
-			
-			Feature valEq = new PointFeature(valLoc);
-			valEq.addProperty("title","Valdivia,Chile");
-			valEq.addProperty("magnitude","9.5");
-			valEq.addProperty("date","May 22, 1960");
-			valEq.addProperty("year","1960");
-			
-			Marker valMk = new SimplePointMarker(valLoc,valEq.getProperties());
-			map.addMarker(valMk);
-			SimplePointMarker val = new SimplePointMarker(valLoc);
-			//map.addMarker(val);
 		}
 		
 	    map.zoomToLevel(2);
 	    MapUtils.createDefaultEventDispatcher(this, map);	
 			
 	    // The List you will populate with new SimplePointMarkers
-	   // List<Marker> markers = new ArrayList<Marker>();
+	    List<Marker> markers = new ArrayList<Marker>();
 
 	    //Use provided parser to collect properties for each earthquake
 	    //PointFeatures have a getLocation method
@@ -94,8 +81,8 @@ public class EarthquakeCityMap extends PApplet {
 	    // List markers (so that it will be added to the map in the line below)
 	    for(PointFeature m : earthquakes)
 	    {
-	    	createMarker(m);
-	    	markers.add(new SimplePointMarker(m.getLocation(),m.getProperties()));
+	    	Marker valMk=createMarker(m);
+	    	markers.add(valMk);
 	    
 	    }
 	    // Add the markers to the map so that they are displayed
@@ -128,24 +115,27 @@ public class EarthquakeCityMap extends PApplet {
 		// Here is an example of how to use Processing's color method to generate 
 	    // an int that represents the color yellow.  
 	    int yellow = color(255, 255, 0);
-	    int gray = color(150,150,150);
+	    int blue = color(0,0,255);
 	    int red = color(255,0,0);
 	    
-	    for (Marker mk : markers)
-	    {
-	    	Object magObj2 = feature.getProperty("magnitude");
-			float mag2 = Float.parseFloat(magObj2.toString());
-	    	if (mag2 > 4 && mag2 < 5)
+	   if (mag >= 5)
 	    	{
-	    		mk.setColor(yellow);
+		   		marker.setColor(red);
+		   		marker.setRadius(12);
 	    	}
-	    	else if (mag2 >= 5)
-	    		mk.setColor(red);
-	    	else mk.setColor(gray);
+	  else if (mag > 4 && mag < 5)
+	    	{
+	    		marker.setColor(yellow);
+	    		marker.setRadius(8);
 	    		
-	    	
-	    }
-		
+	    	}
+	  else
+	    	{
+	    		marker.setColor(blue);
+	    		marker.setRadius(5);
+	    	}
+	   
+	    		
 		// TODO (Step 4): Add code below to style the marker's size and color 
 	    // according to the magnitude of the earthquake.  
 	    // Don't forget about the constants THRESHOLD_MODERATE and 
